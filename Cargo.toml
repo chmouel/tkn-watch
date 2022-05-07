@@ -21,8 +21,10 @@ chrono = "0.4.19"
 chrono-humanize = "0.2.1"
 dialoguer = { version = "0.10.0", features = ["fuzzy-select"] }
 clap = { version = "3.1", features = ["derive", "cargo"] }
+regex = "1.5.5"
 
 
 [build-dependencies]
 clap = { version = "3.1", features = ["cargo"] }
 clap_complete = "3.1"
+goldie = "0.2.0"

@@ -1,0 +1,11 @@
+Refreshing pipelinerun status every 3 seconds. Press Ctrl+C to quit.
+
+[32m✓[0m pr-test - finished 16 hours ago
+
+TASKS:
+
+[32m✓[0m uno                 
+[32m✓[0m tres                
+[32m✓[0m quatro              
+[32m✓[0m dos                 
+[32m✓[0m final               
