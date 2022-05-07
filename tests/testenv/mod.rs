@@ -27,7 +27,7 @@ macro_rules! golden {
         #[test]
         fn $fun() {
             // i have no idea how to fake time yet :((
-            let fixregexp = regex::Regex::new(r"(started|failed)\s*\d+.*").unwrap();
+            let fixregexp = regex::Regex::new(r"(finished|started|failed)\s*\d+.*").unwrap();
             let target = stringify!($fun);
             let output_file = format!("tests/testdata/{}.output", target);
             let json_file = format!("tests/testdata/{}.json", target);

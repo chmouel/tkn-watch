@@ -20,13 +20,12 @@ async fn main() -> anyhow::Result<()> {
         .parse::<u64>()
         .unwrap();
 
-    let api = kclient(config.value_of("namespace")).await?;
     if let Some(jsonfile) = config.value_of("file") {
         let pr = from_json(jsonfile.to_string())?;
         println!("{}", format_pr(&pr, refresh_seconds));
         return Ok(());
     }
-
+    let api = kclient(config.value_of("namespace")).await?;
     let pr_name = if let Some(pr) = config.value_of("pipelinerun") {
         pr.to_string()
     } else {
