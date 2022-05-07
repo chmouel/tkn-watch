@@ -1,0 +1,102 @@
+project_name: tkn-watch
+builds:
+  - main: dummy.go
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    binary: tkn-watch
+    hooks:
+      post: /bin/bash -c "install -m755 target/darwin_amd64/tkn-watch/tkn-watch dist/tkn-watch_darwin_amd64_v1/tkn-watch;install -m755 target/linux_amd64/tkn-watch/tkn-watch dist/tkn-watch_linux_amd64_v1/tkn-watch"
+archives:
+  - replacements:
+      darwin: macOS
+    name_template: "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - src: misc/completions/*
+        dst: completions
+        strip_parent: true
+      - LICENSE
+      - README.md
+checksum:
+  name_template: 'checksums.txt'
+
+brews:
+  - name: tkn-watch
+    tap:
+      owner: chmouel
+      name: tkn-watch
+    folder: Formula
+    homepage: "https://github.com/chmouel/tkn-watch"
+    description: tkn-watch - watch tekton pipelinerun execution
+    install: |
+      bin.install "tkn-watch" => "tkn-watch"
+      prefix.install_metafiles
+      bash_completion.install "completions/tkn-watch.bash"
+      fish_completion.install "completions/tkn-watch.fish"
+      zsh_completion.install "completions/_tkn-watch"
+nfpms:
+  - file_name_template: "tkn-watch-{{.Version}}_{{.Os}}-{{.Arch}}"
+    homepage: https://github.com/chmouel/tkn-watch
+    description: tkn-watch - watch tekton pipelinerun execution
+    maintainer: Chmouel Boudjnah <chmouel@chmouel.com>
+    license: Apache 2.0
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    replacements:
+      amd64: 64bit
+      386: 32bit
+      arm: ARM
+      arm64: ARM64
+      darwin: macOS
+      linux: Linux
+      windows: Windows
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^Brew formula update"
+      - Merge pull request
+      - Merge branch
+      - go mod tidy
+      - Update README.md
+      - "[release] "
+
+universal_binaries:
+  - replace: true
+    name_template: "tkn-watch"
+
+release:
+  prerelease: false
+
+aurs:
+  - name: tkn-watch-bin
+    homepage: "https://github.com/chmouel/tkn-watch"
+    description: "tkn-watch - watch tekton pipelinerun execution"
+    maintainers:
+      - "Chmouel Boudjnah <chmouel@chmouel.com>"
+    license: Apache 2.0
+    private_key: "{{ .Env.AUR_PRIVATE_KEY }}"
+    git_url: ssh://aur@aur.archlinux.org/tkn-watch-bin.git
+    package: |
+      # bin
+      install -Dm755 "./tkn-watch" "${pkgdir}/usr/bin/tkn-watch"
+
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/tkn-watch/LICENSE"
+
+      # completions
+      mkdir -p "${pkgdir}/usr/share/bash-completion/completions/"
+      mkdir -p "${pkgdir}/usr/share/zsh/site-functions/"
+      mkdir -p "${pkgdir}/usr/share/fish/vendor_completions.d/"
+
+      install -Dm644 "completions/tkn-watch.bash" "${pkgdir}/usr/share/bash-completion/completions/tkn-watch"
+      install -Dm644 "completions/tkn-watch.fish" "${pkgdir}/usr/share/fish/vendor_completions.d/tkn-watch.fish"
+      install -Dm644 "completions/_tkn-watch" "${pkgdir}/usr/share/zsh/site-functions/_tkn-watch"

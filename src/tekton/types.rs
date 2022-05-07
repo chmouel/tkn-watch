@@ -1,0 +1,73 @@
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct PipelineRun {
+    pub metadata: Metadata,
+    pub status: Option<PipelineRunStatus>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Metadata {
+    pub name: String,
+    pub generate_name: Option<String>,
+    pub namespace: String,
+    pub labels: Option<HashMap<String, String>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct PipelineRunStatus {
+    pub completion_time: Option<String>,
+    pub conditions: Vec<KnativeCondition>,
+    pub task_runs: HashMap<String, PipelineRunTaskRunStatus>,
+    pub start_time: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct PipelineRunTaskRunStatus {
+    pub pipeline_task_name: String,
+    #[serde(flatten)]
+    pub status: HashMap<String, TaskRunStatus>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct TaskRunStatus {
+    pub completion_time: Option<String>,
+    pub start_time: String,
+    pub conditions: Vec<KnativeCondition>,
+    pub steps: Option<Vec<StepStatus>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct StepStatus {
+    pub name: String,
+    pub terminated: Option<StepStatusTerminated>,
+    pub running: Option<StepStatusRunning>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct StepStatusTerminated {
+    pub reason: String,
+    pub exit_code: i32,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct StepStatusRunning {
+    pub started_at: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct KnativeCondition {
+    pub last_transition_time: String,
+    pub message: String,
+    pub reason: String,
+    pub status: String,
+}

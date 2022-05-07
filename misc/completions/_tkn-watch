@@ -1,0 +1,40 @@
+#compdef tkn-watch
+
+autoload -U is-at-least
+
+_tkn-watch() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-n+[The namespace scope for this CLI request]:NAMESPACE: ' \
+'--namespace=[The namespace scope for this CLI request]:NAMESPACE: ' \
+'-r+[The number of seconds to wait between refreshes]:REFRESH_SECONDS: ' \
+'--refresh-seconds=[The number of seconds to wait between refreshes]:REFRESH_SECONDS: ' \
+'-f+[The json file to read the PipelineRun from instead of running one]:FILE: ' \
+'--file=[The json file to read the PipelineRun from instead of running one]:FILE: ' \
+'-h[Print help information]' \
+'--help[Print help information]' \
+'-V[Print version information]' \
+'--version[Print version information]' \
+'-l[Choose the last pipelinerun]' \
+'--last[Choose the last pipelinerun]' \
+'::pipelinerun -- The name of the pipelinerun to watch or you can use the interactive selector if you don'\''t specify one:' \
+&& ret=0
+}
+
+(( $+functions[_tkn-watch_commands] )) ||
+_tkn-watch_commands() {
+    local commands; commands=()
+    _describe -t commands 'tkn-watch commands' commands "$@"
+}
+
+_tkn-watch "$@"

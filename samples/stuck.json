@@ -1,0 +1,112 @@
+{
+    "apiVersion": "tekton.dev/v1beta1",
+    "kind": "PipelineRun",
+    "metadata": {
+        "annotations": {
+            "pipelinesascode.tekton.dev/max-keep-runs": "5",
+            "pipelinesascode.tekton.dev/on-event": "pull_request",
+            "pipelinesascode.tekton.dev/on-target-branch": "main"
+        },
+        "creationTimestamp": "2022-05-07T05:57:29Z",
+        "generation": 1,
+        "name": "pr-test",
+        "namespace": "test",
+        "resourceVersion": "98277",
+        "uid": "02845248-1ee9-45a6-b75e-25eb9f5ec6c3"
+    },
+    "spec": {
+        "pipelineSpec": {
+            "tasks": [
+                {
+                    "name": "uno",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "exit 0\n"
+                            },
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task1",
+                                "resources": {},
+                                "script": "exit 1\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "dos",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 2\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "tres",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 2\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "quatro",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 2\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "final",
+                    "runAfter": [
+                        "uno",
+                        "dos",
+                        "tres",
+                        "quatro"
+                    ],
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 3\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "serviceAccountName": "default",
+        "timeout": "1h0m0s"
+    }
+}

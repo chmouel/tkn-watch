@@ -1,0 +1,414 @@
+{
+    "apiVersion": "tekton.dev/v1beta1",
+    "kind": "PipelineRun",
+    "metadata": {
+        "annotations": {
+            "pipelinesascode.tekton.dev/max-keep-runs": "5",
+            "pipelinesascode.tekton.dev/on-event": "pull_request",
+            "pipelinesascode.tekton.dev/on-target-branch": "main"
+        },
+        "creationTimestamp": "2022-05-07T02:56:49Z",
+        "generation": 1,
+        "labels": {
+            "tekton.dev/pipeline": "pr-test"
+        },
+        "name": "pr-test",
+        "namespace": "test",
+        "resourceVersion": "73947",
+        "uid": "ce3c0f1d-35a6-47d9-91ba-698f96b09a23"
+    },
+    "spec": {
+        "pipelineSpec": {
+            "tasks": [
+                {
+                    "name": "uno",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "dos",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "tres",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "quatro",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "final",
+                    "runAfter": [
+                        "uno",
+                        "dos",
+                        "tres",
+                        "quatro"
+                    ],
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "serviceAccountName": "default",
+        "timeout": "1h0m0s"
+    },
+    "status": {
+        "completionTime": "2022-05-07T02:57:24Z",
+        "conditions": [
+            {
+                "lastTransitionTime": "2022-05-07T02:57:24Z",
+                "message": "Tasks Completed: 5 (Failed: 0, Cancelled 0), Skipped: 0",
+                "reason": "Succeeded",
+                "status": "True",
+                "type": "Succeeded"
+            }
+        ],
+        "pipelineSpec": {
+            "tasks": [
+                {
+                    "name": "uno",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "dos",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "tres",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "quatro",
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "final",
+                    "runAfter": [
+                        "uno",
+                        "dos",
+                        "tres",
+                        "quatro"
+                    ],
+                    "taskSpec": {
+                        "metadata": {},
+                        "spec": null,
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "startTime": "2022-05-07T02:56:49Z",
+        "taskRuns": {
+            "pr-test-dos": {
+                "pipelineTaskName": "dos",
+                "status": {
+                    "completionTime": "2022-05-07T02:57:07Z",
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2022-05-07T02:57:07Z",
+                            "message": "All Steps have completed executing",
+                            "reason": "Succeeded",
+                            "status": "True",
+                            "type": "Succeeded"
+                        }
+                    ],
+                    "podName": "pr-test-dos-pod",
+                    "startTime": "2022-05-07T02:56:49Z",
+                    "steps": [
+                        {
+                            "container": "step-noop-task",
+                            "imageID": "registry.access.redhat.com/ubi8/ubi-micro@sha256:a46c5a055628d03dc7802d500062657095ef9855fbea410fa175c356eecbef40",
+                            "name": "noop-task",
+                            "terminated": {
+                                "containerID": "containerd://86c89273631111e2c9ac38fb0d5c68b560f20ead0d465da968a29ec1aa4619f6",
+                                "exitCode": 0,
+                                "finishedAt": "2022-05-07T02:57:06Z",
+                                "reason": "Completed",
+                                "startedAt": "2022-05-07T02:56:56Z"
+                            }
+                        }
+                    ],
+                    "taskSpec": {
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            },
+            "pr-test-final": {
+                "pipelineTaskName": "final",
+                "status": {
+                    "completionTime": "2022-05-07T02:57:24Z",
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2022-05-07T02:57:24Z",
+                            "message": "All Steps have completed executing",
+                            "reason": "Succeeded",
+                            "status": "True",
+                            "type": "Succeeded"
+                        }
+                    ],
+                    "podName": "pr-test-final-pod",
+                    "startTime": "2022-05-07T02:57:08Z",
+                    "steps": [
+                        {
+                            "container": "step-noop-task",
+                            "imageID": "registry.access.redhat.com/ubi8/ubi-micro@sha256:a46c5a055628d03dc7802d500062657095ef9855fbea410fa175c356eecbef40",
+                            "name": "noop-task",
+                            "terminated": {
+                                "containerID": "containerd://a42b12eaf8f79a2c8a6fab002aa6f8d018d1ea06fe9c3075db215bfe618afebf",
+                                "exitCode": 0,
+                                "finishedAt": "2022-05-07T02:57:23Z",
+                                "reason": "Completed",
+                                "startedAt": "2022-05-07T02:57:13Z"
+                            }
+                        }
+                    ],
+                    "taskSpec": {
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            },
+            "pr-test-quatro": {
+                "pipelineTaskName": "quatro",
+                "status": {
+                    "completionTime": "2022-05-07T02:57:08Z",
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2022-05-07T02:57:08Z",
+                            "message": "All Steps have completed executing",
+                            "reason": "Succeeded",
+                            "status": "True",
+                            "type": "Succeeded"
+                        }
+                    ],
+                    "podName": "pr-test-quatro-pod",
+                    "startTime": "2022-05-07T02:56:49Z",
+                    "steps": [
+                        {
+                            "container": "step-noop-task",
+                            "imageID": "registry.access.redhat.com/ubi8/ubi-micro@sha256:a46c5a055628d03dc7802d500062657095ef9855fbea410fa175c356eecbef40",
+                            "name": "noop-task",
+                            "terminated": {
+                                "containerID": "containerd://d38cab23324d0988ad743326ad10687317eef4be632ed257774f0f142bd42009",
+                                "exitCode": 0,
+                                "finishedAt": "2022-05-07T02:57:07Z",
+                                "reason": "Completed",
+                                "startedAt": "2022-05-07T02:56:57Z"
+                            }
+                        }
+                    ],
+                    "taskSpec": {
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            },
+            "pr-test-tres": {
+                "pipelineTaskName": "tres",
+                "status": {
+                    "completionTime": "2022-05-07T02:57:07Z",
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2022-05-07T02:57:07Z",
+                            "message": "All Steps have completed executing",
+                            "reason": "Succeeded",
+                            "status": "True",
+                            "type": "Succeeded"
+                        }
+                    ],
+                    "podName": "pr-test-tres-pod",
+                    "startTime": "2022-05-07T02:56:49Z",
+                    "steps": [
+                        {
+                            "container": "step-noop-task",
+                            "imageID": "registry.access.redhat.com/ubi8/ubi-micro@sha256:a46c5a055628d03dc7802d500062657095ef9855fbea410fa175c356eecbef40",
+                            "name": "noop-task",
+                            "terminated": {
+                                "containerID": "containerd://3c76399a76368ba92b8607b5072e0c5175106105f78cd2c0cdfd22c6432791a2",
+                                "exitCode": 0,
+                                "finishedAt": "2022-05-07T02:57:06Z",
+                                "reason": "Completed",
+                                "startedAt": "2022-05-07T02:56:56Z"
+                            }
+                        }
+                    ],
+                    "taskSpec": {
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            },
+            "pr-test-uno": {
+                "pipelineTaskName": "uno",
+                "status": {
+                    "completionTime": "2022-05-07T02:57:07Z",
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2022-05-07T02:57:07Z",
+                            "message": "All Steps have completed executing",
+                            "reason": "Succeeded",
+                            "status": "True",
+                            "type": "Succeeded"
+                        }
+                    ],
+                    "podName": "pr-test-uno-pod",
+                    "startTime": "2022-05-07T02:56:49Z",
+                    "steps": [
+                        {
+                            "container": "step-noop-task",
+                            "imageID": "registry.access.redhat.com/ubi8/ubi-micro@sha256:a46c5a055628d03dc7802d500062657095ef9855fbea410fa175c356eecbef40",
+                            "name": "noop-task",
+                            "terminated": {
+                                "containerID": "containerd://8815d828cc932f9755fe7f446599fbaf5e1bf57169c0057386ed18397af4ba8f",
+                                "exitCode": 0,
+                                "finishedAt": "2022-05-07T02:57:06Z",
+                                "reason": "Completed",
+                                "startedAt": "2022-05-07T02:56:56Z"
+                            }
+                        }
+                    ],
+                    "taskSpec": {
+                        "steps": [
+                            {
+                                "image": "registry.access.redhat.com/ubi8/ubi-micro:8.4",
+                                "name": "noop-task",
+                                "resources": {},
+                                "script": "sleep 10\nexit 0\n"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

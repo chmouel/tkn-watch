@@ -1,0 +1,52 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pr-test-
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "pull_request"
+    pipelinesascode.tekton.dev/on-target-branch: "main"
+    pipelinesascode.tekton.dev/max-keep-runs: "5"
+spec:
+  pipelineSpec:
+    tasks:
+      - name: uno
+        taskSpec:
+          steps:
+            - name: task1
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 0
+      - name: dos
+        taskSpec:
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 0
+      - name: tres
+        taskSpec:
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 0
+      - name: quatro
+        taskSpec:
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 0
+      - name: final
+        runAfter: [uno, dos, tres, quatro]
+        taskSpec:
+          steps:
+            - name: noop-task
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 0
+            - name: fail
+              image: registry.access.redhat.com/ubi8/ubi-micro:8.4
+              script: |
+                exit 1
