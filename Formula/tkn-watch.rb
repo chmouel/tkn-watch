@@ -9,7 +9,7 @@ class TknWatch < Formula
 
   on_macos do
     url "https://github.com/chmouel/tkn-watch/releases/download/0.1.0/tkn-watch_0.1.0_macOS_all.tar.gz"
-    sha256 "bb5217689df8452a144be432570341be121ca7f18ba8236d975fed9a82f0de94"
+    sha256 "b3b480cd4ea2772f0fcd1a5c2b94cb1c2232d200cd4fa15022fe8e252ecc66ec"
 
     def install
       bin.install "tkn-watch" => "tkn-watch"
@@ -23,7 +23,7 @@ class TknWatch < Formula
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/chmouel/tkn-watch/releases/download/0.1.0/tkn-watch_0.1.0_linux_amd64.tar.gz"
-      sha256 "203963e91dfd4565a92e7be490737d18d1570e34b3dd295d2da438cc038537b4"
+      sha256 "0aee781d6fdc5ae18a50248b12a9d2a32d2951adc0cc78e871348a80e54aba35"
 
       def install
         bin.install "tkn-watch" => "tkn-watch"
