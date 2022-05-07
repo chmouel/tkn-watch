@@ -35,19 +35,33 @@ With your favourite aurhelper for example [yay](https://github.com/Jguer/yay) :
 yay -S tkn-watch-bin
 ```
 
+### [Docker](https://github.com/chmouel/tkn-watch/pkgs/container/tkn-watch)
+
+```shell
+docker run -i ghcr.io/chmouel/tkn-watch # don't forget to bind your kubeconfig
+```
+
 ## Usage
 
 ```shell
-% tkn-watch <pipelinerun-name>
+% tkn watch <pipelinerun-name>
 ```
+
+If you don't have `tkn` cli installed you can call the plug-in directly with `tkn-watch`
 
 If you don't specify a PipelineRun it will ask you nicely for a running Pipelinerun to watch.
 
-If you specify the flag `-l`/`--last` it will watch the last PipelineRun started in namespace.
+When you give the flag `-l`/`--last` tkn-watch will use the last PipelineRun started.
 
 You can use the flag `-n` to specify another namespace than the current one.
 
 You can adjust the time to wait between checks with the flag `-r`/`--refresh-seconds`, the default is 3 seconds.
+
+`tkn watch` exit with the pipelinerun status, so you can do fancy things like (on macOS):
+
+```shell
+tkn watch -l || osascript -e 'display notification "PipelineRun Has Failed :("' && osascript -e 'display notification "PipelineRun Has Succeeded, time to commit again :)"'
+```
 
 ## Copyright
 
