@@ -27,6 +27,8 @@ _tkn-watch() {
 '--version[Print version information]' \
 '-l[Choose the last pipelinerun]' \
 '--last[Choose the last pipelinerun]' \
+'-q[Don'\''t print anything to stdout, just wait and exit]' \
+'--quiet[Don'\''t print anything to stdout, just wait and exit]' \
 '::pipelinerun -- The name of the pipelinerun to watch or you can use the interactive selector if you don'\''t specify one:' \
 && ret=0
 }

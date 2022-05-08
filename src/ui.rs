@@ -111,18 +111,25 @@ pub async fn refresh_pr(
     pr_name: &str,
     api: Api<DynamicObject>,
     refresh_seconds: u64,
+    quiet: bool,
 ) -> anyhow::Result<()> {
     loop {
         let pr = crate::tekton::pipelinerun::get(api.clone(), pr_name).await?;
-        // move cursor to top left
-        print!("\x1b[0;0H");
-        print!("\x1b[J");
+        if !quiet {
+            // move cursor to top left
+            print!("\x1b[0;0H");
+            print!("\x1b[J");
+            println!("{}", format_pr(&pr, refresh_seconds));
+        }
 
-        println!("{}", format_pr(&pr, refresh_seconds));
         if let Some(status) = pr.status {
             if status.completion_time.is_some() {
                 if status.conditions[0].status == "False" {
                     // return an error
+                    if quiet {
+                        // return a non-zero exit code
+                        std::process::exit(1);
+                    }
                     println!();
                     return Err(anyhow::anyhow!("pipelinerun has failed"));
                 }

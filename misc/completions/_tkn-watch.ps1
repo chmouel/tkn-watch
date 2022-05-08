@@ -33,6 +33,8 @@ Register-ArgumentCompleter -Native -CommandName 'tkn-watch' -ScriptBlock {
             [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('-l', 'l', [CompletionResultType]::ParameterName, 'Choose the last pipelinerun')
             [CompletionResult]::new('--last', 'last', [CompletionResultType]::ParameterName, 'Choose the last pipelinerun')
+            [CompletionResult]::new('-q', 'q', [CompletionResultType]::ParameterName, 'Don''t print anything to stdout, just wait and exit')
+            [CompletionResult]::new('--quiet', 'quiet', [CompletionResultType]::ParameterName, 'Don''t print anything to stdout, just wait and exit')
             break
         }
     })

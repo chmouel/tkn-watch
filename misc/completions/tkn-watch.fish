@@ -4,3 +4,4 @@ complete -c tkn-watch -s f -l file -d 'The json file to read the PipelineRun fro
 complete -c tkn-watch -s h -l help -d 'Print help information'
 complete -c tkn-watch -s V -l version -d 'Print version information'
 complete -c tkn-watch -s l -l last -d 'Choose the last pipelinerun'
+complete -c tkn-watch -s q -l quiet -d 'Don\'t print anything to stdout, just wait and exit'

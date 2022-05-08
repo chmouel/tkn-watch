@@ -13,6 +13,7 @@ use crate::{kubernetes::client as kclient, tekton::pipelinerun::from_json, ui::f
 async fn main() -> anyhow::Result<()> {
     // check if we have an argument
     let config = cli::command().get_matches_from(std::env::args_os());
+    let quiet = config.is_present("quiet");
 
     let refresh_seconds = config
         .value_of("refresh-seconds")
@@ -29,9 +30,12 @@ async fn main() -> anyhow::Result<()> {
     let pr_name = if let Some(pr) = config.value_of("pipelinerun") {
         pr.to_string()
     } else {
+        if quiet {
+            return Err(anyhow::anyhow!("you need to specify a pipelinerun"));
+        }
         select_pipelinerun(api.clone(), config.is_present("last")).await?
     };
 
-    ui::refresh_pr(&pr_name, api, refresh_seconds).await?;
+    ui::refresh_pr(&pr_name, api, refresh_seconds, quiet).await?;
     Ok(())
 }

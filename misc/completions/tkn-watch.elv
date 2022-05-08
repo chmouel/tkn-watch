@@ -30,6 +30,8 @@ set edit:completion:arg-completer[tkn-watch] = {|@words|
             cand --version 'Print version information'
             cand -l 'Choose the last pipelinerun'
             cand --last 'Choose the last pipelinerun'
+            cand -q 'Don''t print anything to stdout, just wait and exit'
+            cand --quiet 'Don''t print anything to stdout, just wait and exit'
         }
     ]
     $completions[$command]

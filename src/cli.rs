@@ -18,6 +18,12 @@ pub fn command() -> clap::Command<'static> {
                 .help("Choose the last pipelinerun"),
         )
         .arg(
+            clap::Arg::new("quiet")
+                .short('q')
+                .long("quiet")
+                .help("Don't print anything to stdout, just wait and exit"),
+        )
+        .arg(
             clap::Arg::new("pipelinerun")
                 .value_name("PIPELINERUN")
                 .help(

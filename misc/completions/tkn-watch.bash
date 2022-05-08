@@ -19,7 +19,7 @@ _tkn-watch() {
 
     case "${cmd}" in
         tkn__watch)
-            opts="-h -V -n -l -r -f --help --version --namespace --last --refresh-seconds --file <PIPELINERUN>"
+            opts="-h -V -n -l -q -r -f --help --version --namespace --last --quiet --refresh-seconds --file <PIPELINERUN>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
