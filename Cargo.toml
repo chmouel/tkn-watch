@@ -8,6 +8,7 @@ readme = "README.md"
 categories = ["command-line-utilities"]
 description = "watch tekton pipelinerun execution"
 build = "build.rs"
+keywords = ["kubernetes", "tekton", "pipelines"]
 
 [dependencies]
 kube = { version = "0.71.0", features = ["runtime", "derive"] }
