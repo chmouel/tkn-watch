@@ -1,10 +1,10 @@
 name: releaser
 
-on:
-  push:
-    # run only against tags
-    tags:
-      - '*'
+on: ["pull_request"]
+  # push:
+  #   # run only against tags
+  #   tags:
+  #     - '*'
 
 permissions:
   contents: write
@@ -12,25 +12,24 @@ permissions:
   issues: write
 
 jobs:
-  publish-crates:
-    name: Publish to crates.io
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-
-      - uses: Swatinem/rust-cache@v1
-      - uses: katyo/publish-crates@v1
-        with:
-          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+  # publish-crates:
+  #   name: Publish to crates.io
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Install stable toolchain
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         profile: minimal
+  #         toolchain: stable
+  #         override: true
+      # - uses: Swatinem/rust-cache@v1
+      # - uses: katyo/publish-crates@v1
+      #   with:
+      #     registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
   build:
     # runs-on: ubuntu-latest
     name: ${{ matrix.job.os }} (${{ matrix.job.target }})
@@ -39,8 +38,8 @@ jobs:
       fail-fast: false
       matrix:
         job:
-          - {os: ubuntu-20.04, target: x86_64-unknown-linux-gnu}
-          - {os: macos-10.15, target: x86_64-apple-darwin}
+          - {os: ubuntu-latest, target: x86_64-unknown-linux-gnu}
+          - {os: macos-latest, target: x86_64-apple-darwin}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -50,43 +49,44 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.job.target }}
+      - name: Installing needed macOS dependencies
+        run: type -p brew && brew install openssl@1.1
       - uses: Swatinem/rust-cache@v1
       - name: Build on ${{ matrix.job.target }}
         uses: actions-rs/cargo@v1
         with:
           command: build
           args: --release --target=${{ matrix.job.target }}
-
       - uses: actions/upload-artifact@v3
         with:
           name: tkn-watch-${{ matrix.job.target }}
           path: target/${{ matrix.job.target }}/release/tkn-watch
-  goreleaser:
-    name: Goreleaser over Rust
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/download-artifact@v3
-        with:
-          name: tkn-watch-x86_64-unknown-linux-gnu
-          path: target/linux_amd64/tkn-watch
-      - uses: actions/download-artifact@v3
-        with:
-          name: tkn-watch-x86_64-apple-darwin
-          path: target/darwin_amd64/tkn-watch
+  # goreleaser:
+  #   name: Goreleaser over Rust
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: tkn-watch-x86_64-unknown-linux-gnu
+  #         path: target/linux_amd64/tkn-watch
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: tkn-watch-x86_64-apple-darwin
+  #         path: target/darwin_amd64/tkn-watch
 
       # - uses: mxschmitt/action-tmate@v3
 
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --rm-dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AUR_PRIVATE_KEY: ${{ secrets.AUR_PRIVATE_KEY }}
+      # - name: Run GoReleaser
+      #   uses: goreleaser/goreleaser-action@v2
+      #   with:
+      #     distribution: goreleaser
+      #     version: latest
+      #     args: release --rm-dist
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     AUR_PRIVATE_KEY: ${{ secrets.AUR_PRIVATE_KEY }}
