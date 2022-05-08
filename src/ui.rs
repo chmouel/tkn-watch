@@ -2,9 +2,12 @@ use std::cmp::Ordering;
 
 use askama::Template;
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};
-use kube::{api::ListParams, core::DynamicObject, Api};
+use kube::{core::DynamicObject, Api};
 
-use crate::{tekton::types::PipelineRun, utils};
+use crate::{
+    tekton::{pipelinerun, types::PipelineRun},
+    utils,
+};
 
 #[derive(Template)]
 #[template(path = "pipelinerun-status.html")]
@@ -132,35 +135,25 @@ pub async fn refresh_pr(
 }
 
 pub async fn select_pipelinerun(api: Api<DynamicObject>, last: bool) -> anyhow::Result<String> {
-    // TODO: only runnning ones
-    let prs = api.list(&ListParams::default()).await?;
-    // collect all prs items name and separate by \n
-    let mut names = prs.items.iter().
-    // filter if running or not
-    collect::<Vec<_>>();
+    let prs = pipelinerun::running(api.clone()).await?;
 
-    names.sort_by(|a, b| {
-        a.metadata
-            .creation_timestamp
-            .cmp(&b.metadata.creation_timestamp)
-            .reverse()
-    });
-    // get pipelinerun name
-    let names = names
-        .iter()
-        .filter(|pr| pr.metadata.name.is_some())
-        .map(|pr| pr.metadata.name.clone().unwrap())
-        .collect::<Vec<_>>();
+    if prs.is_empty() {
+        return Err(anyhow::anyhow!("no pipelinerun has been found"));
+    }
+
+    if prs.len() == 1 {
+        return Ok(prs[0].to_string());
+    }
 
     if last {
-        return Ok(names[0].to_string());
+        return Ok(prs[0].to_string());
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
         .with_prompt("Select a PipelineRun:")
         .default(0)
-        .items(&names)
+        .items(&prs)
         .interact()
         .unwrap();
-    Ok(names[selection].to_string())
+    Ok(prs[selection].to_string())
 }

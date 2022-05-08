@@ -51,7 +51,8 @@ docker run -i ghcr.io/chmouel/tkn-watch # don't forget to bind your kubeconfig
 
 If you don't have `tkn` cli installed you can call the plug-in directly with `tkn-watch`
 
-If you don't specify a PipelineRun it will ask you nicely for a running Pipelinerun to watch.
+If you don't specify a PipelineRun it will ask you nicely for a running
+Pipelinerun to watch, auto-selecting one if there is only one running.
 
 When you give the flag `-l`/`--last` tkn-watch will use the last PipelineRun started.
 

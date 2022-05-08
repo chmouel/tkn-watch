@@ -23,6 +23,30 @@ pub async fn get(api: Api<DynamicObject>, prname: &str) -> anyhow::Result<Pipeli
     })
 }
 
+// get all pipelineruns
+pub async fn running(api: Api<DynamicObject>) -> anyhow::Result<Vec<String>> {
+    let prs = api.list(&kube::api::ListParams::default()).await?;
+    let mut prs = prs.items;
+    prs.sort_by(|a, b| {
+        a.metadata
+            .creation_timestamp
+            .cmp(&b.metadata.creation_timestamp)
+            .reverse()
+    });
+    let prs = prs
+        .iter()
+        .filter(|pr| {
+            pr.metadata.name.is_some()
+                && pr.data["status"].as_object().is_some()
+                && pr.data["status"]["conditions"].as_array().is_some()
+                && pr.data["status"]["conditions"][0].as_object().is_some()
+                && pr.data["status"]["conditions"][0]["reason"] == "Running"
+        })
+        .map(|pr| pr.metadata.name.clone().unwrap())
+        .collect::<Vec<_>>();
+    Ok(prs)
+}
+
 pub fn from_json(filename: String) -> anyhow::Result<PipelineRun> {
     let mut file = std::fs::File::open(filename)?;
     let mut contents = String::new();
