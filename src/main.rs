@@ -30,10 +30,7 @@ async fn main() -> anyhow::Result<()> {
     let pr_name = if let Some(pr) = config.value_of("pipelinerun") {
         pr.to_string()
     } else {
-        if quiet {
-            return Err(anyhow::anyhow!("you need to specify a pipelinerun"));
-        }
-        select_pipelinerun(api.clone(), config.is_present("last")).await?
+        select_pipelinerun(api.clone(), config.is_present("last"), quiet).await?
     };
 
     ui::refresh_pr(&pr_name, api, refresh_seconds, quiet).await?;

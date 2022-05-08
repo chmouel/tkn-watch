@@ -141,7 +141,11 @@ pub async fn refresh_pr(
     Ok(())
 }
 
-pub async fn select_pipelinerun(api: Api<DynamicObject>, last: bool) -> anyhow::Result<String> {
+pub async fn select_pipelinerun(
+    api: Api<DynamicObject>,
+    last: bool,
+    quiet: bool,
+) -> anyhow::Result<String> {
     let prs = pipelinerun::running(api.clone()).await?;
 
     if prs.is_empty() {
@@ -154,6 +158,10 @@ pub async fn select_pipelinerun(api: Api<DynamicObject>, last: bool) -> anyhow::
 
     if last {
         return Ok(prs[0].to_string());
+    }
+
+    if quiet {
+        return Err(anyhow::anyhow!("you need to specify the pipelinerun name"));
     }
 
     let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
