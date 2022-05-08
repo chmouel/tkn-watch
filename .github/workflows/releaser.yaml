@@ -50,7 +50,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.job.target }}
       - name: Installing needed macOS dependencies
-        run: type -p brew && brew install openssl@1.1
+        run: uname -a|grep -qi linux || brew install openssl@1.1
       - uses: Swatinem/rust-cache@v1
       - name: Build on ${{ matrix.job.target }}
         uses: actions-rs/cargo@v1

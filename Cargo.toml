@@ -12,7 +12,7 @@ build = "build.rs"
 [dependencies]
 kube = { version = "0.71.0", features = ["runtime", "derive"] }
 k8s-openapi = { version = "0.14.0", features = ["v1_23"] }
-tokio = { version = "1.14.0", features = ["full"] }
+tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0.44"
 serde = { version = "1.0.136", features = ["derive"] }
 serde_json = "1.0.79"
@@ -22,6 +22,7 @@ chrono-humanize = "0.2.1"
 dialoguer = { version = "0.10.0", features = ["fuzzy-select"] }
 clap = { version = "3.1", features = ["derive", "cargo"] }
 regex = "1.5.5"
+openssl = { version = "0.10.38", features = ["vendored"] }
 
 
 [build-dependencies]
