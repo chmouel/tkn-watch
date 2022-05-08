@@ -5,11 +5,11 @@
 class TknWatch < Formula
   desc "tkn-watch - watch tekton pipelinerun execution"
   homepage "https://github.com/chmouel/tkn-watch"
-  version "0.1.0"
+  version "0.2.0"
 
   on_macos do
-    url "https://github.com/chmouel/tkn-watch/releases/download/0.1.0/tkn-watch_0.1.0_macOS_all.tar.gz"
-    sha256 "b3b480cd4ea2772f0fcd1a5c2b94cb1c2232d200cd4fa15022fe8e252ecc66ec"
+    url "https://github.com/chmouel/tkn-watch/releases/download/0.2.0/tkn-watch_0.2.0_macOS_all.tar.gz"
+    sha256 "027b9b94bf6e2cdf9befc9e03e83ef971720f2fce34bb01c857a021e7a3e9125"
 
     def install
       bin.install "tkn-watch" => "tkn-watch"
@@ -22,8 +22,8 @@ class TknWatch < Formula
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/chmouel/tkn-watch/releases/download/0.1.0/tkn-watch_0.1.0_linux_amd64.tar.gz"
-      sha256 "0aee781d6fdc5ae18a50248b12a9d2a32d2951adc0cc78e871348a80e54aba35"
+      url "https://github.com/chmouel/tkn-watch/releases/download/0.2.0/tkn-watch_0.2.0_linux_amd64.tar.gz"
+      sha256 "5cc5035ff287015c8b75bacda0126956d2123d818fc9af7d41ffdab80c762eb7"
 
       def install
         bin.install "tkn-watch" => "tkn-watch"
