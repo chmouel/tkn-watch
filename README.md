@@ -14,8 +14,6 @@ It mimics the behaviour of GitHub [cli](https://github.com/cli/cli) `run` `watch
 
 ### [Binaries](https://github.com/chmouel/tkn-watch/releases)
 
-** there is some issues with the binary generated for m1 macOS, your best bet is to use the cargo method **
-
 Go to the [release](https://github.com/chmouel/tkn-watch/releases) page and grab the archive or package targeting your platform.
 
 ### [Homebrew](https://homebrew.sh)
