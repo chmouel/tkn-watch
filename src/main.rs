@@ -23,7 +23,7 @@ async fn main() -> anyhow::Result<()> {
 
     if let Some(jsonfile) = config.value_of("file") {
         let pr = from_json(jsonfile.to_string())?;
-        println!("{}", format_pr(&pr, refresh_seconds));
+        println!("{}", format_pr(&pr));
         return Ok(());
     }
     let api = kclient(config.value_of("namespace")).await?;

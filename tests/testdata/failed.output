@@ -1,5 +1,3 @@
-Refreshing pipelinerun status every 3 seconds. Press Ctrl+C to quit.
-
 [31m✗[0m pr-test - failed 
 
 TASKS:
@@ -10,3 +8,4 @@ TASKS:
 [32m✓[0m tres                
 [32m✓[0m quatro              
 [32m✓[0m dos                 
+
