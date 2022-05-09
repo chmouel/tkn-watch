@@ -8,17 +8,20 @@ pub fn parse_dt_as_duration(dt: &str) -> String {
 }
 
 // color status string
-pub fn colorit(status: &str, s: &str) -> String {
-    let color = match status {
-        "yellow" => "\x1b[33m".to_string(),
-        "blue" => "\x1b[34m".to_string(),
-        "green" => "\x1b[32m".to_string(),
-        "red" => "\x1b[31m".to_string(),
-        "cyan" => "\x1b[36m".to_string(),
-        "magenta" => "\x1b[35m".to_string(),
-        _ => "".to_string(),
-    };
-    format!("{}{}\x1b[0m", color, s)
+pub fn colorit(color: &str, string: &str) -> String {
+    format!(
+        "\x1b[{}m{}\x1b[0m",
+        match color {
+            "yellow" => String::from("33"),
+            "blue" => String::from("34"),
+            "green" => String::from("32"),
+            "red" => String::from("31"),
+            "cyan" => String::from("36"),
+            "magenta" => String::from("35"),
+            _ => String::new(),
+        },
+        string
+    )
 }
 
 pub fn get_running_char(status: &str) -> String {
