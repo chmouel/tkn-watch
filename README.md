@@ -64,6 +64,8 @@ You can use the flag `-n` to specify another namespace than the current one.
 
 You can adjust the time to wait between checks with the flag `-r`/`--refresh-seconds`, the default is 3 seconds.
 
+If you don't want a fancy output and just have it reporting quietly success or failure then you can use the `-q`/`--quiet` flag for this.
+
 `tkn watch` exit with the pipelinerun status, so you can do fancy things like (on macOS):
 
 ```shell
