@@ -12,7 +12,7 @@ It mimics the behaviour of GitHub [cli](https://github.com/cli/cli) `run` `watch
 
 ## Demo
 
-https://user-images.githubusercontent.com/98980/167365691-808bcd91-cb8b-4597-b5bd-57f544c2bc5e.mov
+<https://user-images.githubusercontent.com/98980/167365691-808bcd91-cb8b-4597-b5bd-57f544c2bc5e.mov>
 
 ## Installation
 
