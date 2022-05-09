@@ -18,6 +18,9 @@ pub fn colorit(color: &str, string: &str) -> String {
             "red" => String::from("31"),
             "cyan" => String::from("36"),
             "magenta" => String::from("35"),
+            "underline" => String::from("4"),
+            "italic" => String::from("3"),
+            "bold" => String::from("1"),
             _ => String::new(),
         },
         string

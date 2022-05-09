@@ -14,6 +14,7 @@ pub struct Metadata {
     pub generate_name: Option<String>,
     pub namespace: String,
     pub labels: Option<HashMap<String, String>>,
+    pub annotations: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

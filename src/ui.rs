@@ -1,4 +1,4 @@
-use std::cmp::Ordering;
+use std::{cmp::Ordering, vec};
 
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};
 use kube::{core::DynamicObject, Api};
@@ -16,6 +16,7 @@ pub fn format_pr(pr: &PipelineRun) -> String {
             utils::colorit("yellow", "pending")
         );
     }
+
     let status = pr.status.as_ref().unwrap();
     let start_time = status.start_time.as_ref().unwrap();
     let humantime = utils::parse_dt_as_duration(start_time);
@@ -84,9 +85,34 @@ pub fn format_pr(pr: &PipelineRun) -> String {
         })
         .collect::<Vec<String>>();
 
-    let mut ret = format!(
-        "{} {} - {} {}\n\nTASKS:\n\n",
-        first_asterisk, &pr.metadata.name, since_word, humantime
+    let pac = vec!["event-type", "url-org", "url-repository", "sha"];
+    let mut ret = String::new();
+
+    if pr.metadata.labels.is_some() {
+        let metadata = pr.metadata.labels.clone().unwrap();
+        let pac_title = metadata
+            .iter()
+            .map(|(k, v)| (k.split('/').last().unwrap(), v.as_str()))
+            .filter(|(k, _v)| pac.contains(k))
+            .collect::<std::collections::HashMap<&str, &str>>();
+        if pac_title.len() == 4 {
+            ret = format!(
+                "{} {} on {}/{} (sha {})\n",
+                utils::colorit("magenta", "!"),
+                pac_title.get("event-type").unwrap_or(&"--"),
+                utils::colorit("bold", pac_title.get("url-org").unwrap_or(&"--")),
+                utils::colorit("bold", pac_title.get("url-repository").unwrap_or(&"--")),
+                utils::colorit("italic", pac_title.get("sha").unwrap_or(&"--")),
+            );
+        }
+    }
+
+    ret.push_str(
+        format!(
+            "{} {} - {} {}\n\nTASKS:\n\n",
+            first_asterisk, &pr.metadata.name, since_word, humantime
+        )
+        .as_str(),
     );
     for task in tasks {
         ret.push_str(format!("{}\n", task).as_str());
