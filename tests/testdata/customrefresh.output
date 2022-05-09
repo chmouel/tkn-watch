@@ -1,5 +1,3 @@
-Refreshing pipelinerun status every 2000 seconds. Press Ctrl+C to quit.
-
 [33m*[0m pr-test - started 
 
 TASKS:
@@ -14,3 +12,4 @@ TASKS:
   [33m*[0m noop-task
 [33m*[0m dos                 
   [33m*[0m noop-task
+

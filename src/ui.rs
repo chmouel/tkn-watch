@@ -1,6 +1,5 @@
 use std::cmp::Ordering;
 
-use askama::Template;
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};
 use kube::{core::DynamicObject, Api};
 
@@ -9,18 +8,7 @@ use crate::{
     utils,
 };
 
-#[derive(Template)]
-#[template(path = "pipelinerun-status.html")]
-pub struct PipelineRunStatusTemplate<'a> {
-    pub name: &'a str,
-    pub duration: &'a str,
-    pub since_word: &'a str,
-    pub tasks: &'a Vec<String>,
-    pub first_asterisk: &'a String,
-    pub refresh_seconds: &'a u64,
-}
-
-pub fn format_pr(pr: &PipelineRun, refresh_seconds: u64) -> String {
+pub fn format_pr(pr: &PipelineRun) -> String {
     if pr.status.is_none() || pr.status.clone().unwrap().start_time.is_none() {
         return format!(
             "PipelineRun {} is {} to start.",
@@ -96,15 +84,15 @@ pub fn format_pr(pr: &PipelineRun, refresh_seconds: u64) -> String {
         })
         .collect::<Vec<String>>();
 
-    let tmpl = PipelineRunStatusTemplate {
-        name: &pr.metadata.name,
-        duration: &humantime,
-        since_word,
-        tasks: &tasks,
-        first_asterisk: &first_asterisk,
-        refresh_seconds: &refresh_seconds,
-    };
-    tmpl.render().unwrap()
+    let mut ret = format!(
+        "{} {} - {} {}\n\nTASKS:\n\n",
+        first_asterisk, &pr.metadata.name, since_word, humantime
+    );
+    for task in tasks {
+        ret.push_str(format!("{}\n", task).as_str());
+    }
+
+    ret
 }
 
 pub async fn refresh_pr(
@@ -113,13 +101,25 @@ pub async fn refresh_pr(
     refresh_seconds: u64,
     quiet: bool,
 ) -> anyhow::Result<()> {
+    let sp = if quiet {
+        spinner::SpinnerBuilder::new(String::new())
+            .spinner(vec![])
+            .start()
+    } else {
+        spinner::SpinnerBuilder::new(format!(
+            "Refreshing pipelinerun status every {} seconds. Press Ctrl+C to quit.",
+            refresh_seconds
+        ))
+        .start()
+    };
     loop {
         let pr = crate::tekton::pipelinerun::get(api.clone(), pr_name).await?;
+
         if !quiet {
             // move cursor to top left
             print!("\x1b[0;0H");
             print!("\x1b[J");
-            println!("{}", format_pr(&pr, refresh_seconds));
+            println!("{}", format_pr(&pr));
         }
 
         if let Some(status) = pr.status {
@@ -130,7 +130,7 @@ pub async fn refresh_pr(
                         // return a non-zero exit code
                         std::process::exit(1);
                     }
-                    println!();
+                    sp.message(utils::get_running_char("failed"));
                     return Err(anyhow::anyhow!("pipelinerun has failed"));
                 }
                 break;
@@ -138,6 +138,7 @@ pub async fn refresh_pr(
         }
         std::thread::sleep(std::time::Duration::from_secs(refresh_seconds));
     }
+    sp.message(utils::get_running_char("succeeded"));
     Ok(())
 }
 
