@@ -150,7 +150,7 @@ pub async fn select_pipelinerun(
     let prs = pipelinerun::running(api.clone()).await?;
 
     if prs.is_empty() {
-        return Err(anyhow::anyhow!("no pipelinerun has been found"));
+        return Err(anyhow::anyhow!("no running pipelinerun has been found"));
     }
 
     if prs.len() == 1 {
