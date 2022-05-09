@@ -6,9 +6,9 @@ tkn-watch is a simple extension to the [tkn](https://github.com/tektoncd/cli) co
 
 It mimics the behaviour of GitHub [cli](https://github.com/cli/cli) `run` `watch` command.
 
-## Screencast
+## Demo
 
-<https://user-images.githubusercontent.com/98980/167255324-d1c16973-df5f-473a-9285-2b7422840dd8.mov>
+https://user-images.githubusercontent.com/98980/167365691-808bcd91-cb8b-4597-b5bd-57f544c2bc5e.mov
 
 ## Installation
 
