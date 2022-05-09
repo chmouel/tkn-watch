@@ -1,4 +1,9 @@
-on: [push]
+on:
+  push:
+    paths:
+      - "**.rs"
+      - "**.lock"
+
 
 name: Code Coverage
 
