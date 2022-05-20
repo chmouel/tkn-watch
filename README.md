@@ -47,6 +47,24 @@ yay -S tkn-watch-bin
 docker run -i ghcr.io/chmouel/tkn-watch # don't forget to bind your kubeconfig
 ```
 
+### [Nix/NixOS](https://nixos.org/)
+
+This repository comes with a `flake` (see [NixOS Wiki on
+Flakes](https://nixos.wiki/wiki/Flakes)).
+
+If you have the `nix flake` command enable (currenty on
+nixos-unstable, `nixos-version` >= 22.05)
+
+```shell
+nix run github:chmouel/tkn-watch -- --help # your args are here
+```
+
+You can also use to test and develop on the repository.
+
+```shell
+nix develop # drops you in a shell with all the thing needed
+nix flake check # runs cargo test, rustfmt, …
+```
 ## Usage
 
 ```shell
