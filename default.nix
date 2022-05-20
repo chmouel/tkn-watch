@@ -9,6 +9,7 @@
 , rustfmt
 , cargo
 , rustc
+, openssl
 }:
 
 let
@@ -18,14 +19,16 @@ in
 naersk.lib."${targetPlatform.system}".buildPackage rec {
   src = ./.;
 
+  nativeBuildInputs = [ pkg-config ];
   buildInputs = [
     rustfmt
     pkg-config
     cargo
     rustc
     libiconv
+    openssl
   ];
-  checkInputs = [ cargo rustc ];
+  checkInputs = [ cargo rustc ]; # just for the host building the package
 
   doCheck = true;
   CARGO_BUILD_INCREMENTAL = "false";
@@ -38,7 +41,7 @@ naersk.lib."${targetPlatform.system}".buildPackage rec {
   meta = with lib; {
     description = cargoToml.package.description;
     homepage = cargoToml.package.homepage;
-    license = with licenses; [ mit ];
-    maintainers = with maintainers; [ ];
+    license = with licenses; [ asl20 ];
+    maintainers = with maintainers; [ vdemeester chmouel ];
   };
 }
