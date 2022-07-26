@@ -526,9 +526,9 @@ dependencies = [
 
 [[package]]
 name = "goldie"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81b13cf51127777a6901bee511f57d94ccd84b624fc37318681889f7ba06b230"
+checksum = "8d1f073a9e313f5ca5ca0f7e27b6fcd8933559c82838d6de139412d211f5c131"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -536,7 +536,7 @@ dependencies = [
  "pretty_assertions",
  "serde",
  "serde_json",
- "tinytemplate",
+ "upon",
 ]
 
 [[package]]
@@ -1521,16 +1521,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tinytemplate"
-version = "1.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "be4d6b5f19ff7664e8c98d03e2139cb510db9b0a60b55f8e8709b689d939b6bc"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "tinyvec"
 version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1774,6 +1764,16 @@ name = "unicode-width"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
+
+[[package]]
+name = "upon"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed81ba82962d360c388d5a4d589260aceaad38f7ef52ab804c4b8e47c38f5a62"
+dependencies = [
+ "serde",
+ "unicode-width",
+]
 
 [[package]]
 name = "url"
