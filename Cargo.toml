@@ -15,10 +15,10 @@ kube = { version = "0.74.0", features = ["runtime", "derive"] }
 k8s-openapi = { version = "0.15.0", features = ["v1_23"] }
 tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0.44"
-serde = { version = "1.0.136", features = ["derive"] }
+serde = { version = "1.0.143", features = ["derive"] }
 serde_json = "1.0.79"
 askama = "0.11.1"
-chrono = "0.4.19"
+chrono = "0.4.21"
 chrono-humanize = "0.2.1"
 dialoguer = { version = "0.10.0", features = ["fuzzy-select"] }
 clap = { version = "3.1", features = ["derive", "cargo"] }
