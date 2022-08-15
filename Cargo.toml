@@ -18,7 +18,7 @@ anyhow = "1.0.44"
 serde = { version = "1.0.143", features = ["derive"] }
 serde_json = "1.0.79"
 askama = "0.11.1"
-chrono = "0.4.19"
+chrono = "0.4.22"
 chrono-humanize = "0.2.1"
 dialoguer = { version = "0.10.0", features = ["fuzzy-select"] }
 clap = { version = "3.1", features = ["derive", "cargo"] }
