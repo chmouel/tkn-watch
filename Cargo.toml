@@ -14,12 +14,12 @@ keywords = ["kubernetes", "tekton", "pipelines"]
 kube = { version = "0.74.0", features = ["runtime", "derive"] }
 k8s-openapi = { version = "0.15.0", features = ["v1_23"] }
 tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
-anyhow = "1.0.62"
+anyhow = "1.0.63"
 serde = { version = "1.0.143", features = ["derive"] }
 serde_json = "1.0.79"
 askama = "0.11.1"
 chrono = "0.4.22"
-chrono-humanize = "0.2.1"
+chrono-humanize = "0.2.2"
 dialoguer = { version = "0.10.0", features = ["fuzzy-select"] }
 clap = { version = "3.2", features = ["derive", "cargo"] }
 regex = "1.5.5"
@@ -30,5 +30,5 @@ goldie = "0.4.0"
 
 [build-dependencies]
 clap = { version = "3.2", features = ["cargo"] }
-clap_complete = "3.1"
+clap_complete = "3.2"
 goldie = "0.4.0"
