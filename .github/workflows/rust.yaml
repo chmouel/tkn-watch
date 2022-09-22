@@ -78,7 +78,7 @@ jobs:
           args: -- -D warnings
   dependabot:
     name: "Dependabot"
-    needs: [lint]
+    needs: [lint, test, check]
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}}
     steps:
