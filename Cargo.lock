@@ -540,9 +540,9 @@ dependencies = [
 
 [[package]]
 name = "goldie"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c68b794c78f0138015514ad826c06fc1163f73d6bc4b487ea1fac40ac7d9599"
+checksum = "e5fae5db05aa608b6882a7c299ef8171f8665e0264d62fd6f0b12f6cf636450b"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -1781,9 +1781,9 @@ checksum = "099b7128301d285f79ddd55b9a83d5e6b9e97c92e0ea0daebee7263e932de992"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.2"
+version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15c61ba63f9235225a22310255a29b806b907c9b8c964bcbd0a2c70f3f2deea7"
+checksum = "6ceab39d59e4c9499d4e5a8ee0e2735b891bb7308ac83dfb4e80cad195c9f6f3"
 
 [[package]]
 name = "unicode-normalization"
@@ -1802,11 +1802,12 @@ checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
 
 [[package]]
 name = "upon"
-version = "0.4.0"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e2b14182f4b5f0394580626668f0da50a2cbb9ad2dc1213e92f893cfb8c164c2"
+checksum = "b77ce40602cb1a7dfcdd6336f6d8baa2803c898aafbc0d46156b59727f2e7135"
 dependencies = [
  "serde",
+ "unicode-ident",
  "unicode-width",
 ]
 
