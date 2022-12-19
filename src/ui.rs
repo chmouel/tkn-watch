@@ -34,11 +34,7 @@ pub fn format_pr(pr: &PipelineRun) -> String {
     } else if status.conditions[0].status == "True" && !is_running {
         first_asterisk = utils::colorit("green", "✓");
     }
-    let mut sorted = status
-        .task_runs
-        .iter()
-        .map(|(_, status)| status)
-        .collect::<Vec<_>>();
+    let mut sorted = status.task_runs.values().collect::<Vec<_>>();
 
     sorted.sort_by(|a, b| {
         match a.status["status"]
