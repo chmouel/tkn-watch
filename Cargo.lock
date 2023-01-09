@@ -592,9 +592,9 @@ dependencies = [
 
 [[package]]
 name = "goldie"
-version = "0.4.2"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5fae5db05aa608b6882a7c299ef8171f8665e0264d62fd6f0b12f6cf636450b"
+checksum = "fd1d4b95ae93c6d91591a2998aa7363113e51130ede293b3c92ac89b63e13914"
 dependencies = [
  "anyhow",
  "once_cell",
