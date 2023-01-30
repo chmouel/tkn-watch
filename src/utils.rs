@@ -37,6 +37,6 @@ pub fn get_running_char(status: &str) -> String {
         "error" => colorit("red", "✕"),
         "failed" => colorit("red", "✕"),
         "couldntgettask" => colorit("red", "✕"),
-        _ => format!("• {} ", status),
+        _ => format!("• {status} "),
     }
 }

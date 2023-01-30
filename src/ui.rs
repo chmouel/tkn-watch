@@ -111,7 +111,7 @@ pub fn format_pr(pr: &PipelineRun) -> String {
         .as_str(),
     );
     for task in tasks {
-        ret.push_str(format!("{}\n", task).as_str());
+        ret.push_str(format!("{task}\n").as_str());
     }
 
     ret
@@ -129,8 +129,7 @@ pub async fn refresh_pr(
             .start()
     } else {
         spinner::SpinnerBuilder::new(format!(
-            "Refreshing pipelinerun status every {} seconds. Press Ctrl+C to quit.",
-            refresh_seconds
+            "Refreshing pipelinerun status every {refresh_seconds} seconds. Press Ctrl+C to quit."
         ))
         .start()
     };
