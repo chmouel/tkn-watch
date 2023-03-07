@@ -17,7 +17,7 @@ tokio = { version = "1.25.0", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0.69"
 serde = { version = "1.0.152", features = ["derive"] }
 serde_json = "1.0.94"
-askama = "0.11.1"
+askama = "0.12.0"
 chrono = "0.4.23"
 chrono-humanize = "0.2.2"
 dialoguer = { version = "0.10.3", features = ["fuzzy-select"] }
