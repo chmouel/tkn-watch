@@ -15,24 +15,21 @@ async fn main() -> anyhow::Result<()> {
     let config = cli::command().get_matches_from(std::env::args_os());
     let quiet = config.is_present("quiet");
 
-    let refresh_seconds = config
-        .value_of("refresh-seconds")
-        .unwrap()
-        .parse::<u64>()
-        .unwrap();
+    let refresh_seconds = config.value_of("refresh-seconds").unwrap().parse::<u64>().unwrap();
 
     if let Some(jsonfile) = config.value_of("file") {
         let pr = from_json(jsonfile.to_string())?;
         println!("{}", format_pr(&pr));
         return Ok(());
     }
-    let api = kclient(config.value_of("namespace")).await?;
+    let pipelinerun = kclient(config.value_of("namespace"), "PipelineRun").await?;
+    let taskrun = kclient(config.value_of("namespace"), "TaskRun").await?;
     let pr_name = if let Some(pr) = config.value_of("pipelinerun") {
         pr.to_string()
     } else {
-        select_pipelinerun(api.clone(), config.is_present("last"), quiet).await?
+        select_pipelinerun(pipelinerun.clone(), config.is_present("last"), quiet).await?
     };
 
-    ui::refresh_pr(&pr_name, api, refresh_seconds, quiet).await?;
+    ui::refresh_pr(&pr_name, pipelinerun, taskrun, refresh_seconds, quiet).await?;
     Ok(())
 }

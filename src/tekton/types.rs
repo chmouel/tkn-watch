@@ -1,10 +1,18 @@
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PipelineRun {
     pub metadata: Metadata,
     pub status: Option<PipelineRunStatus>,
+    pub child_status: Option<Vec<TaskRunStatus>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct TaskRun {
+    pub metadata: Metadata,
+    pub status: Option<TaskRunStatus>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -21,9 +29,16 @@ pub struct Metadata {
 #[serde(rename_all = "camelCase")]
 pub struct PipelineRunStatus {
     pub completion_time: Option<String>,
-    pub conditions: Vec<KnativeCondition>,
-    pub task_runs: HashMap<String, PipelineRunTaskRunStatus>,
+    pub conditions: Option<Vec<KnativeCondition>>,
+    pub child_references: Option<Vec<ChildReference>>,
     pub start_time: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ChildReference {
+    pub pipeline_task_name: String,
+    pub name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -39,7 +54,7 @@ pub struct PipelineRunTaskRunStatus {
 pub struct TaskRunStatus {
     pub completion_time: Option<String>,
     pub start_time: String,
-    pub conditions: Vec<KnativeCondition>,
+    pub conditions: Option<Vec<KnativeCondition>>,
     pub steps: Option<Vec<StepStatus>>,
 }
 

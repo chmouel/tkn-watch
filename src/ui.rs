@@ -1,10 +1,13 @@
-use std::{cmp::Ordering, vec};
+use std::{iter::zip, vec};
 
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};
 use kube::{core::DynamicObject, Api};
 
 use crate::{
-    tekton::{pipelinerun, types::PipelineRun},
+    tekton::{
+        pipelinerun,
+        types::{ChildReference, PipelineRun, TaskRunStatus},
+    },
     utils,
 };
 
@@ -18,6 +21,25 @@ pub fn format_pr(pr: &PipelineRun) -> String {
     }
 
     let status = pr.status.as_ref().unwrap();
+
+    if pr.child_status.is_none() || status.child_references.is_none() || status.conditions.is_none()
+    {
+        return format!(
+            "PipelineRun {} is {} to start for waiting tasks.",
+            utils::colorit("cyan", &pr.metadata.name),
+            utils::colorit("yellow", "pending")
+        );
+    }
+
+    let child_status = pr.child_status.as_ref().unwrap();
+    if child_status.is_empty() || child_status[0].conditions.is_none() {
+        return format!(
+            "PipelineRun {} is {} to start for waiting task conditions.",
+            utils::colorit("cyan", &pr.metadata.name),
+            utils::colorit("yellow", "pending")
+        );
+    }
+
     let start_time = status.start_time.as_ref().unwrap();
     let humantime = utils::parse_dt_as_duration(start_time);
     //  check if pipeline is running
@@ -28,58 +50,47 @@ pub fn format_pr(pr: &PipelineRun) -> String {
         since_word = "started";
         first_asterisk = utils::colorit("yellow", "*");
     }
-    if status.conditions[0].status == "False" {
+    let conditions = status.conditions.as_ref().unwrap();
+    if conditions[0].status == "False" {
         since_word = "failed";
         first_asterisk = utils::colorit("red", "✗");
-    } else if status.conditions[0].status == "True" && !is_running {
+    } else if conditions[0].status == "True" && !is_running {
         first_asterisk = utils::colorit("green", "✓");
     }
-    let mut sorted = status.task_runs.values().collect::<Vec<_>>();
 
-    sorted.sort_by(|a, b| {
-        match a.status["status"]
-            .start_time
-            .cmp(&b.status["status"].start_time)
-        {
-            Ordering::Equal => a.pipeline_task_name.cmp(&b.pipeline_task_name).reverse(),
-            _ => a.status["status"]
-                .start_time
-                .cmp(&b.status["status"].start_time),
-        }
-    });
+    let tasks = zip::<&Vec<TaskRunStatus>, &Vec<ChildReference>>(
+        child_status,
+        status.child_references.as_ref().unwrap(),
+    )
+    .map(|(tstatus, reference)| {
+        let cond = &tstatus.conditions.as_ref().unwrap()[0];
+        let tstatus2 = cond.reason.as_str().to_lowercase();
 
-    let tasks = sorted
-        .iter()
-        .map(|tstatus| {
-            let status = &tstatus.status["status"];
-            let cond = &status.conditions[0];
-            let tstatus2 = cond.reason.as_str().to_lowercase();
-
-            let start_char = utils::get_running_char(&tstatus2);
-            let mut ret = format!("{} {:-20}\n", start_char, tstatus.pipeline_task_name);
-            // go over all the taskruns
-            if !status.conditions.is_empty() && status.conditions[0].status != "True" {
-                if let Some(sstep) = &status.steps {
-                    ret += &sstep
-                        .iter()
-                        .filter(|s| s.terminated.is_some() || s.running.is_some())
-                        .map(|s| {
-                            if let Some(terminated) = &s.terminated.clone() {
-                                format!(
-                                    "  {} {}\n",
-                                    utils::get_running_char(&terminated.reason.to_lowercase()),
-                                    &s.name,
-                                )
-                            } else {
-                                format!("  {} {}\n", utils::colorit("yellow", "*"), &s.name)
-                            }
-                        })
-                        .collect::<String>();
-                }
+        let start_char = utils::get_running_char(&tstatus2);
+        let mut ret = format!("{} {:-20}\n", start_char, reference.pipeline_task_name);
+        // go over all the taskruns
+        if !conditions.is_empty() && conditions[0].status != "True" {
+            if let Some(sstep) = &tstatus.steps {
+                ret += &sstep
+                    .iter()
+                    .filter(|s| s.terminated.is_some() || s.running.is_some())
+                    .map(|s| {
+                        if let Some(terminated) = &s.terminated.clone() {
+                            format!(
+                                "  {} {}\n",
+                                utils::get_running_char(&terminated.reason.to_lowercase()),
+                                &s.name,
+                            )
+                        } else {
+                            format!("  {} {}\n", utils::colorit("yellow", "*"), &s.name)
+                        }
+                    })
+                    .collect::<String>();
             }
-            ret.trim_end_matches('\n').to_string()
-        })
-        .collect::<Vec<String>>();
+        }
+        ret.trim_end_matches('\n').to_string()
+    })
+    .collect::<Vec<String>>();
 
     let pac = ["event-type", "url-org", "url-repository", "sha"];
     let mut ret = String::new();
@@ -119,14 +130,13 @@ pub fn format_pr(pr: &PipelineRun) -> String {
 
 pub async fn refresh_pr(
     pr_name: &str,
-    api: Api<DynamicObject>,
+    pipelinerun: Api<DynamicObject>,
+    taskrun: Api<DynamicObject>,
     refresh_seconds: u64,
     quiet: bool,
 ) -> anyhow::Result<()> {
     let sp = if quiet {
-        spinner::SpinnerBuilder::new(String::new())
-            .spinner(vec![])
-            .start()
+        spinner::SpinnerBuilder::new(String::new()).spinner(vec![]).start()
     } else {
         spinner::SpinnerBuilder::new(format!(
             "Refreshing pipelinerun status every {refresh_seconds} seconds. Press Ctrl+C to quit."
@@ -134,7 +144,8 @@ pub async fn refresh_pr(
         .start()
     };
     loop {
-        let pr = crate::tekton::pipelinerun::get(api.clone(), pr_name).await?;
+        let pr =
+            crate::tekton::pipelinerun::get(pipelinerun.clone(), taskrun.clone(), pr_name).await?;
 
         if !quiet {
             // move cursor to top left
@@ -144,8 +155,8 @@ pub async fn refresh_pr(
         }
 
         if let Some(status) = pr.status {
-            if status.completion_time.is_some() {
-                if status.conditions[0].status == "False" {
+            if status.completion_time.is_some() && status.conditions.is_some() {
+                if status.conditions.unwrap()[0].status == "False" {
                     // return an error
                     if quiet {
                         // return a non-zero exit code
