@@ -19,7 +19,7 @@ serde = { version = "1.0.175", features = ["derive"] }
 serde_json = "1.0.103"
 askama = "0.12.0"
 chrono = "0.4.26"
-chrono-humanize = "0.2.2"
+chrono-humanize = "0.2.3"
 dialoguer = { version = "0.10.4", features = ["fuzzy-select"] }
 clap = { version = "3.2", features = ["derive", "cargo"] }
 regex = "1.8.4"
