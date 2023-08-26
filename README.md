@@ -69,7 +69,7 @@ If you don't want a fancy output and just have it reporting quietly success or f
 `tkn watch` exit with the pipelinerun status, so you can do fancy things like (on macOS):
 
 ```shell
-tkn watch -l || osascript -e 'display notification "PipelineRun Has Failed :("' && osascript -e 'display notification "PipelineRun Has Succeeded, time to commit again :)"'
+tkn watch -lq || osascript -e 'display notification "PipelineRun Has Failed :("' && osascript -e 'display notification "PipelineRun Has Succeeded, time to commit again :)"'
 ```
 
 If you use [pipelines-as-code](https://github.com/openshift-pipelines/pipelines-as-code) it will detect the headers and show which event and sha this PR targets.
