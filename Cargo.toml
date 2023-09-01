@@ -22,7 +22,7 @@ chrono = "0.4.26"
 chrono-humanize = "0.2.3"
 dialoguer = { version = "0.10.4", features = ["fuzzy-select"] }
 clap = { version = "3.2", features = ["derive", "cargo"] }
-regex = "1.8.4"
+regex = "1.9.4"
 openssl = { version = "0.10.56", features = ["vendored"] }
 spinner = "0.5.0"
 goldie = "0.4.3"
