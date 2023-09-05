@@ -81,7 +81,7 @@ pub fn format_pr(pr: &PipelineRun) -> String {
         })
         .collect::<Vec<String>>();
 
-    let pac = vec!["event-type", "url-org", "url-repository", "sha"];
+    let pac = ["event-type", "url-org", "url-repository", "sha"];
     let mut ret = String::new();
 
     if pr.metadata.labels.is_some() {
