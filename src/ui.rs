@@ -136,7 +136,9 @@ pub async fn refresh_pr(
     quiet: bool,
 ) -> anyhow::Result<()> {
     let sp = if quiet {
-        spinner::SpinnerBuilder::new(String::new()).spinner(vec![]).start()
+        spinner::SpinnerBuilder::new(String::new())
+            .spinner(vec![])
+            .start()
     } else {
         spinner::SpinnerBuilder::new(format!(
             "Refreshing pipelinerun status every {refresh_seconds} seconds. Press Ctrl+C to quit."

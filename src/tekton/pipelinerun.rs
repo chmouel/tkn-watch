@@ -24,7 +24,11 @@ pub async fn get(
     let metadata: Metadata = serde_json::from_str(&metadata_str)?;
 
     if status.child_references.is_none() {
-        return Ok(PipelineRun { metadata, status: None, child_status: None });
+        return Ok(PipelineRun {
+            metadata,
+            status: None,
+            child_status: None,
+        });
     }
 
     let mut task_status: Vec<TaskRunStatus> = vec![];
@@ -39,14 +43,23 @@ pub async fn get(
         let child_status: TaskRunStatus = serde_json::from_str(&child_status_str)?;
         task_status.push(child_status);
     }
-    Ok(PipelineRun { metadata, status: Some(status), child_status: Some(task_status) })
+    Ok(PipelineRun {
+        metadata,
+        status: Some(status),
+        child_status: Some(task_status),
+    })
 }
 
 // get all pipelineruns
 pub async fn running(api: Api<DynamicObject>) -> anyhow::Result<Vec<String>> {
     let prs = api.list(&kube::api::ListParams::default()).await?;
     let mut prs = prs.items;
-    prs.sort_by(|a, b| a.metadata.creation_timestamp.cmp(&b.metadata.creation_timestamp).reverse());
+    prs.sort_by(|a, b| {
+        a.metadata
+            .creation_timestamp
+            .cmp(&b.metadata.creation_timestamp)
+            .reverse()
+    });
     let prs = prs
         .iter()
         .filter(|pr| {

@@ -15,7 +15,11 @@ async fn main() -> anyhow::Result<()> {
     let config = cli::command().get_matches_from(std::env::args_os());
     let quiet = config.is_present("quiet");
 
-    let refresh_seconds = config.value_of("refresh-seconds").unwrap().parse::<u64>().unwrap();
+    let refresh_seconds = config
+        .value_of("refresh-seconds")
+        .unwrap()
+        .parse::<u64>()
+        .unwrap();
 
     if let Some(jsonfile) = config.value_of("file") {
         let pr = from_json(jsonfile.to_string())?;
