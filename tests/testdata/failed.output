@@ -1,11 +1,1 @@
-[31m✗[0m pr-test - failed 
-
-TASKS:
-
-[31m✕[0m uno                 
-  [32m✓[0m noop-task
-  [31m✕[0m noop-task1
-[32m✓[0m tres                
-[32m✓[0m quatro              
-[32m✓[0m dos                 
-
+PipelineRun [36mpr-test[0m is [33mpending[0m to start for waiting tasks.

@@ -1,15 +1,1 @@
-[33m*[0m pr-test - started 
-
-TASKS:
-
-[33m*[0m uno                 
-  [33m*[0m noop-task
-  [33m*[0m noop-task1
-  [33m*[0m noop-task2
-[33m*[0m tres                
-  [33m*[0m noop-task
-[33m*[0m quatro              
-  [33m*[0m noop-task
-[33m*[0m dos                 
-  [33m*[0m noop-task
-
+PipelineRun [36mpr-test[0m is [33mpending[0m to start for waiting tasks.
